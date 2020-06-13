@@ -7,7 +7,7 @@ import psutil
 import traceback
 import spotipy.oauth2
 import pynput
-import win32gui
+import win32gui, win32com.client
 from pynput.keyboard import Key, Controller
 # Add your spotify username
 username = ''
@@ -18,6 +18,7 @@ client_id=''
 #Add your client secret from Spotify Dev
 client_secret=''
 redirect_uri='http://localhost:8080/callback'
+
 
 
 
@@ -50,8 +51,11 @@ def relaunchSpotify():
 	time.sleep(0.5)
 	#Opens spotify
 	subprocess.call(["Spotify.exe"])
+	#Issue with win32gui where you need to send the alt key in order for setforegroundwindow to work
+	shell = win32com.client.Dispatch("WScript.Shell")
+	shell.SendKeys('%')
 	#sets active window to what was before spotify opening
-	win32gui.SetActiveWindow(activewindow)
+	win32gui.SetForegroundWindow(activewindow)
 	#Wait for the spotify app to load 
 	time.sleep(0.5)
 	#Spotify relaunches with previous song
@@ -123,3 +127,4 @@ while(True):
 		print(traceback.format_exc())
 	except KeyboardInterrupt:
 		exit()
+
