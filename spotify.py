@@ -42,8 +42,12 @@ def relaunchSpotify():
 	#Finds all PIDs with the name Spotify 
 	for proc in psutil.process_iter():
 		if any(procstr in proc.name() for procstr in ['Spotify']):
-			#Kills all processes of spotify
-			proc.kill()
+			try:
+				#Kills all processes of spotify
+				proc.kill()
+			#sometimes the process will already be gone 
+			except psutil.NoSuchProcess:
+				pass
 	#when relaunched the window gets focused which is kinda annoying
 	#gets active window before launch
 	activewindow = get_active_window()
