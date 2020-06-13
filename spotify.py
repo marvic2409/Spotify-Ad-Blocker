@@ -44,7 +44,7 @@ def relaunchSpotify():
 		if any(procstr in proc.name() for procstr in ['Spotify']):
 			try:
 				#Kills all processes of spotify
-				proc.kill
+				proc.kill()
 			#sometimes the process will already be gone 
 			except psutil.NoSuchProcess:
 				pass
